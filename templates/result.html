@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 60%;
+            margin: 50px auto;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            font-size: 1.2em;
+            color: #555;
+        }
+        .prediction {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .positive {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .negative {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .metrics {
+            text-align: left;
+            margin-top: 20px;
+        }
+        .metrics h2 {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .metrics p {
+            font-size: 1em;
+            color: #555;
+        }
+        .metrics table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .metrics table, .metrics th, .metrics td {
+            border: 1px solid #ccc;
+        }
+        .metrics th, .metrics td {
+            padding: 8px;
+            text-align: center;
+        }
+        .metrics th {
+            background-color: #f2f2f2;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #4CAF50;
+            border: 1px solid #4CAF50;
+            padding: 10px 20px;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        a:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Result</h1>
+        <p>Review: {{ review }}</p>
+        <p class="prediction {{ 'positive' if prediction == 'positive' else 'negative' }}">
+            Prediction: {{ prediction }}
+        </p>
+        <div class="metrics">
+            <h2>Model Metrics</h2>
+            <p>Training Accuracy: {{ training_accuracy }}</p>
+            <p>Testing Accuracy: {{ testing_accuracy }}</p>
+            <h3>Confusion Matrix</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Predicted Negative</th>
+                        <th>Predicted Positive</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Actual Negative</th>
+                        <td>{{ confusion_matrix[0][0] }}</td>
+                        <td>{{ confusion_matrix[0][1] }}</td>
+                    </tr>
+                    <tr>
+                        <th>Actual Positive</th>
+                        <td>{{ confusion_matrix[1][0] }}</td>
+                        <td>{{ confusion_matrix[1][1] }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3>Classification Report</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Class</th>
+                        <th>Precision</th>
+                        <th>Recall</th>
+                        <th>F1-Score</th>
+                        <th>Support</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Negative</td>
+                        <td>{{ classification_report['0']['precision'] }}</td>
+                        <td>{{ classification_report['0']['recall'] }}</td>
+                        <td>{{ classification_report['0']['f1-score'] }}</td>
+                        <td>{{ classification_report['0']['support'] }}</td>
+                    </tr>
+                    <tr>
+                        <td>Positive</td>
+                        <td>{{ classification_report['1']['precision'] }}</td>
+                        <td>{{ classification_report['1']['recall'] }}</td>
+                        <td>{{ classification_report['1']['f1-score'] }}</td>
+                        <td>{{ classification_report['1']['support'] }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <a href="/">Back to Home</a>
+    </div>
+</body>
+</html>
